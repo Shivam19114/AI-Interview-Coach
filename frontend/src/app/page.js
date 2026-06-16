@@ -43,9 +43,12 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col md:flex-row justify-center gap-6 mt-10">
-          <button className="bg-blue-600 px-8 py-4 rounded-xl text-lg hover:bg-blue-700 transition">
-            Start Topic Interview
-          </button>
+          <a
+  href="/topic-interview"
+  className="bg-blue-600 px-8 py-4 rounded-xl text-lg hover:bg-blue-700 transition"
+>
+  Start Topic Interview
+</a>
 
           <button className="border border-gray-700 px-8 py-4 rounded-xl text-lg hover:bg-gray-900 transition">
             Upload Resume
