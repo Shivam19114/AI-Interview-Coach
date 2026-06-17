@@ -1,10 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function InterviewRoom() {
     const searchParams = useSearchParams();
     const topic = searchParams.get("topic");
+
+    const [question, setQuestion] = useState("Loading question...");
+
+    useEffect(() => {
+        if (!topic) return;
+
+        const fetchQuestion = async () => {
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/generate-question",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ topic }),
+                    }
+                );
+
+                const data = await response.json();
+
+                setQuestion(data.question);
+
+            } catch (error) {
+                console.error(error);
+                setQuestion("Failed to load question.");
+            }
+        };
+
+        fetchQuestion();
+
+    }, [topic]);
 
     return (
         <main className="min-h-screen bg-gray-950 text-white p-8">
@@ -22,9 +55,7 @@ export default function InterviewRoom() {
                     </h2>
 
                     <p className="text-gray-300">
-                        {topic
-                            ? `Welcome to the ${topic} interview. Your first question will appear here.`
-                            : "No topic selected."}
+                        {question}
                     </p>
 
                 </div>
