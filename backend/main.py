@@ -26,6 +26,9 @@ app.add_middleware(
 class TopicRequest(BaseModel):
     topic: str
 
+class EvaluationRequest(BaseModel):
+    question: str
+    answer: str
 
 @app.get("/")
 def home():
@@ -52,4 +55,40 @@ def generate_question(request: TopicRequest):
 
     return {
         "question": response.text.strip()
+    }
+
+@app.post("/evaluate-answer")
+def evaluate_answer(request: EvaluationRequest):
+
+    prompt = f"""
+    You are an expert technical interviewer.
+
+    Interview Question:
+    {request.question}
+
+    Candidate's Answer:
+    {request.answer}
+
+    Evaluate the answer and provide the following:
+
+    1. Score out of 10
+    2. Feedback
+    3. Ideal Answer
+    4. One Improvement Tip
+
+    Format the response exactly like this:
+
+    Score: ...
+
+    Feedback: ...
+
+    Ideal Answer: ...
+
+    Improvement Tip: ...
+    """
+
+    response = model.generate_content(prompt)
+
+    return {
+        "evaluation": response.text.strip()
     }
