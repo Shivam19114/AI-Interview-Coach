@@ -62,28 +62,30 @@ def evaluate_answer(request: EvaluationRequest):
 
     prompt = f"""
     You are an expert technical interviewer.
-
+    
     Interview Question:
     {request.question}
-
+    
     Candidate's Answer:
     {request.answer}
-
-    Evaluate the answer and provide the following:
-
-    1. Score out of 10
-    2. Feedback
-    3. Ideal Answer
-    4. One Improvement Tip
-
-    Format the response exactly like this:
-
-    Score: ...
-
+    
+    Evaluate the candidate's answer.
+    
+    Rules:
+    - Score should be out of 10.
+    - Feedback should be maximum 2 short sentences.
+    - Ideal Answer should be maximum 3 short sentences.
+    - Improvement Tip should be only 1 sentence.
+    - Keep the response concise and interview-focused.
+    
+    Format the response EXACTLY like this:
+    
+    Score: X/10
+    
     Feedback: ...
-
+    
     Ideal Answer: ...
-
+    
     Improvement Tip: ...
     """
 
